@@ -1,0 +1,5 @@
+[
+    { "id": 1, "name": "Смартфон Galaxy X", "price": 24990, "category": "phones", "rating": 4.7, "image": "img/phone.jpg" },
+    { "id": 2, "name": "Ноутбук ProBook 15", "price": 54990, "category": "laptops", "rating": 4.8, "image": "img/laptop.jpg" },
+    { "id": 3, "name": "Наушники AirSound", "price": 4990, "category": "audio", "rating": 4.5, "image": "img/audio.jpg" }
+]

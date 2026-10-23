@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="app">
+        <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #2c3e50; color: white; margin-bottom: 20px;">
+            <h1>ЭлектроникаПро</h1>
+            <span style="font-size: 1.2em; font-weight: bold; background: #e74c3c; padding: 5px 15px; border-radius: 20px;">
+                🛒 Корзина: {{ cartCount }}
+            </span>
+        </header>
+
+        <main style="padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+            <div v-if="products.length === 0" style="grid-column: 1/-1; text-align: center; color: red; font-weight: bold;">
+                Загрузка... (Если это висит долго, смотрите консоль F12)
+            </div>
+            <product-card
+                v-for="item in products"
+                :key="item.id"
+                :product="item"
+                @add="addToCart" 
+            />
+        </main>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    products: [],
+                    // ИСПРАВЛЕНО: считаем длину массива, а не несуществующий ключ
+                    cartCount: JSON.parse(localStorage.getItem('cart') || '[]').length
+                }
+            },
+            mounted() {
+                console.log("Пытаюсь загрузить data.json...");
+                fetch('data.json')
+                    .then(response => {
+                        if (!response.ok) throw new Error('Файл не найден (ошибка ' + response.status + ')');
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log("Успех! Товары загружены:", data);
+                        this.products = data;
+                    })
+                    .catch(err => {
+                        console.error('ОШИБКА ЗАГРУЗКИ:', err);
+                        console.log("Включаю тестовые товары, чтобы страница не была пустой");
+                        this.products = [
+                            { "id": 1, "name": "Смартфон Galaxy X", "price": 24990, "rating": 4.7 },
+                            { "id": 2, "name": "Ноутбук ProBook 15", "price": 54990, "rating": 4.8 }
+                        ];
+                    });
+            },
+            methods: {
+                addToCart(item) {
+                    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                    cart.push(item);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    this.cartCount = cart.length;
+                    console.log('Добавлено:', item.name, 'Всего:', this.cartCount);
+                }
+            }
+        });
+
+        app.component('product-card', {
+            props: ['product'],
+            template: `
+                <article class="product-card">
+                    <span class="badge" v-if="product.rating >= 4.7">Хит</span>
+                    <h3>{{ product.name }}</h3>
+                    <p>Цена: {{ product.price }} руб.</p>
+                    <button class="btn-buy" @click="$emit('add', product)">В корзину</button>
+                </article>
+            `
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+</html>

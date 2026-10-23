@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>ЭлектроникаПро</title>
+</head>
+<body>
+<header>
+    <h1>ЭлектроникаПро</h1>
+    <button id="menu-btn" aria-label="Меню">☰</button>
+    <nav id="menu">
+        <a href="#catalog">Каталог</a>
+        <a href="#about">О нас</a>
+        <a href="#contacts">Контакты</a>
+        <a href="vue-demo.html" class="cart-link">🛒 Корзина</a>
+    </nav>
+</header>
+
+<main class="layout">
+    <!-- ЛЕВАЯ КОЛОНКА (1/3) -->
+    <aside class="layout-left">
+        <section id="auth">
+            <h2>Вход в систему</h2>
+            <form id="login-form">
+                <input type="text" name="login" placeholder="Логин">
+                <input type="password" name="password" placeholder="Пароль">
+                <button type="submit">Войти</button>
+            </form>
+            <p id="user-info"></p>
+        </section>
+
+        <section id="order">
+            <h2>Быстрый заказ</h2>
+            <form id="order-form" novalidate>
+                <input type="text" name="name" placeholder="Ваше имя">
+                <input type="email" name="email" placeholder="Email">
+                <input type="number" name="quantity" placeholder="Количество" min="1" max="10">
+                <button type="submit">Отправить заказ</button>
+            </form>
+            <p id="form-message"></p>
+        </section>
+
+        <section class="hit-section">
+            <h2>🔥 Хит продаж</h2>
+            <article class="product-card hit-card">
+                <span class="badge">Хит</span>
+                <img src="img/phone.jpg" alt="Смартфон" loading="lazy">
+                <h3>Смартфон Galaxy X</h3>
+                <p>Цена: 24 990 руб.</p>
+                <p><button class="btn-buy">В корзину</button></p>
+            </article>
+        </section>
+    </aside>
+
+    <!-- ПРАВАЯ КОЛОНКА (2/3) -->
+    <div class="layout-right">
+        <section id="about">
+            <h2>О компании</h2>
+            <p>Мы продаём электронику с 2020 года. Качество, гарантия и быстрая доставка — наши главные приоритеты.</p>
+        </section>
+
+        <section id="catalog">
+            <h2>Каталог товаров</h2>
+
+            <div class="catalog-controls">
+                <div class="filter-wrapper">
+                    <label for="category-filter">Категория:</label>
+                    <select id="category-filter">
+                        <option value="all">Все товары</option>
+                        <option value="phones">Смартфоны</option>
+                        <option value="laptops">Ноутбуки</option>
+                        <option value="audio">Аудио</option>
+                    </select>
+                </div>
+                <div class="catalog-actions">
+                    <button id="btn-all">Показать все товары</button>
+                    <button id="btn-cheap">Только до 10 000 руб.</button>
+                </div>
+            </div>
+
+            <div class="products-grid" id="product-list"></div>
+        </section>
+    </div>
+</main>
+
+<footer>
+    <p id="contacts">© 2026 ЭлектроникаПро</p>
+</footer>
+<script src="script.js" defer></script>
+</body>
+</html>
